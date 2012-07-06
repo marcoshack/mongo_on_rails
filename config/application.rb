@@ -66,3 +66,7 @@ module Catalog
     config.assets.version = '1.0'
   end
 end
+
+silence_warnings do
+  IRB = Pry
+end
