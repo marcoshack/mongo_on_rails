@@ -1,10 +1,9 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.6'
-
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
-
+gem 'mongoid'
+gem 'bson'
+gem 'bson_ext'
 
 
 # Gems used only for assets and not required
