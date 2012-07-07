@@ -1,8 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.6'
-gem 'mongoid', '~> 2.4.11'
-gem 'bson_ext', '~> 1.6.4'
+gem 'mongoid', '~> 3.0.0.rc'
 
 gem 'pry'
 
