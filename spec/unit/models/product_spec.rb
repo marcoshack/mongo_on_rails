@@ -8,6 +8,25 @@ describe Product do
     product.save.should be_false
     lambda { product.save! }.should raise_error Mongoid::Errors::Validations
   end
+  
+  it "should add keywords without duplication" do
+    product = create(:product, keywords: ["foo", "bar"])
+    product.add_keywords(["foo", "bar", "baz", "qux"]).reload
+    product.keywords.should == ["foo", "bar", "baz", "qux"]
+  end
+  
+  it "should do nothing when adding nil or empty keywords" do
+    product = create(:product, keywords: ["foo", "bar"])
+    product.add_keywords(nil)
+    product.add_keywords([])
+    product.keywords.should == ["foo", "bar"]
+  end
+  
+  it "should increment quantity" do
+    product = create(:product, quantity: 3)
+    product.inc_quantity(2)
+    product.quantity.should == 5
+  end
 end
 
 # Exemplos usados na apresentacao

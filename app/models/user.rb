@@ -7,6 +7,5 @@ class User
   
   attr_protected :password
   
-  validates :username, presence: true, format: { with: /\A[A-Za-z_]+\z/, 
-                                                 message: "Only letters allowed" }
+  validates :username, presence: true, format: { with: /\A[A-Za-z_]+[0-9]*\z/ }
 end

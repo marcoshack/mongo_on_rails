@@ -17,10 +17,11 @@ describe User do
   end
   
   it "should validate username format" do
-    User.new(username: '!@#$%').valid?.should be_false
-    User.new(username: "1234567").valid?.should be_false
-    User.new(username: "foo4bar").valid?.should be_false
-    User.new(username: "foo_bar").valid?.should be_true
+    build(:user, username: '!@#$%'  ).valid?.should be_false
+    build(:user, username: "1234567").valid?.should be_false
+    build(:user, username: "1234foo").valid?.should be_false
+    build(:user, username: "foo1234").valid?.should be_true
+    build(:user, username: "foo_bar").valid?.should be_true
   end
   
   it "should protect password from mass assignment" do
