@@ -1,13 +1,18 @@
-development:
+defaults: &defaults
   host: localhost
-  database: catalog_development
+  allow_dynamic_fields: false
 
+development:
+  <<: *defaults
+  database: catalog_development
+  
 test:
-  host: localhost
+  <<: *defaults
   database: catalog_test
 
 # set these environment variables on your prod server
 production:
+  <<: *defaults
   host: <%= ENV['MONGOID_HOST'] %>
   port: <%= ENV['MONGOID_PORT'] %>
   username: <%= ENV['MONGOID_USERNAME'] %>
