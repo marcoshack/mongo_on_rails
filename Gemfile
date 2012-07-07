@@ -1,9 +1,8 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.6'
-gem 'mongoid'
-gem 'bson'
-gem 'bson_ext'
+gem 'mongoid', '~> 2.4.11'
+gem 'bson_ext', '~> 1.6.4'
 
 gem 'pry'
 
@@ -35,3 +34,7 @@ gem 'jquery-rails'
 
 # To use debugger
 # gem 'debugger'
+
+group :development, :test do
+  gem 'rspec-rails'
+end
