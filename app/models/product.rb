@@ -1,20 +1,21 @@
 class Product
   include Mongoid::Document
-  field :t, as: :title, :type => String
-  field :d, as: :description, :type => String
-  field :k, as: :keywords, :type => Array
-  field :q, as: :quantity, :type => Integer, default: 0
+  field :title      , :type => String
+  field :description, :type => String
+  field :keywords   , :type => Array
+  field :quantity   , :type => Integer, default: 0
+  field :price      , :type => Float
   
   validates :title, presence: true, length: { maximum: 100 }
   
   def add_keywords(keywords)
-    self.add_to_set(:k, keywords)
+    self.add_to_set(:keywords, keywords)
     self.save
     self
   end
   
   def inc_quantity(increment)
-    self.inc(:q, increment)
+    self.inc(:quantity, increment)
     self.save
     self
   end

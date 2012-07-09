@@ -27,29 +27,12 @@ describe Product do
     product.inc_quantity(2)
     product.quantity.should == 5
   end
+  
+  it "should have price" do
+    product = create(:product)
+    product.price = 19.99
+    product.save
+    product.reload
+    product.price.should == 19.99
+  end
 end
-
-# Exemplos usados na apresentacao
-
-# product = Product.new
-# product.valid?         #=> false
-# product.errors[:title] #=> ["can't be blank"]
-# product.save           #=> false
-# product.save!          #=> Mongoid::Errors::Validations
-#
-#
-# product = Product.create(title: "Super Nintendo NES System")
-# product.attributes #=> { "t" => "Super Nintendo NES System" }
-# product.title      #=> "Super Nintendo NES System"
-# 
-# 
-# product = Product.create(title: "Atari 2600")
-# 
-# product.price                          #=> NoMethodError
-# product[:price]                        #=> nil
-# product.read_attribute(:price)         #=> nil
-# 
-# product.price   = 59.99                #=> NoMethodError
-# product[:price] = 59.99                #=> OK
-# product.write_attribute(:price, 59.99) #=> OK
-
