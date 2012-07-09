@@ -1,5 +1,6 @@
 class Product
   include Mongoid::Document
+
   field :title      , :type => String
   field :description, :type => String
   field :keywords   , :type => Array
@@ -11,6 +12,8 @@ class Product
   validates :title, presence: true, length: { maximum: 100 }
   
   scope :published, where(status: "published")
+  scope :available, published.and(:quantity.gt => 0)
+  scope :has_keywords, lambda { |keywords| where(:keywords.all => keywords) }
   
   def add_keywords(keywords)
     self.add_to_set(:keywords, keywords)

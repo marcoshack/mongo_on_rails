@@ -40,4 +40,15 @@ describe Product do
     2.times { create(:product, status: "published") }
     Product.published.count.should == 2
   end
+  
+  it "shoud find available products" do
+    3.times { create(:product, status: "published", quantity: 2) }
+    2.times { create(:product, status: "pending"  , quantity: 1) }
+    Product.available.count.should == 3
+  end
+  
+  it "should find products with the given keywords" do
+    create(:product, keywords: ["awesome"])
+    Product.has_keywords(["awesome"])
+  end
 end

@@ -47,3 +47,19 @@ Product.where(:keywords.all => ["game", "console"]).update_all(
   category: "Video Game"
 )
 
+
+# Named scopes
+
+class Product
+  # ...
+
+  scope :published, where(status: "published")
+  scope :available, published.and(:quantity.gt => 0)
+  scope :has_keywords, lambda {|words| where(:keywords.all => words)}
+  
+  # ...
+end
+
+Product.available.and.has_keywords(["awesome", "game"])
+
+
