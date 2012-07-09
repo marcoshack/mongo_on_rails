@@ -35,4 +35,11 @@ describe Product do
     product.reload
     product.price.should == 19.99
   end
+  
+  it "should add keywords for a set of products" do
+    ids = []
+    3.times { ids << create(:product, keywords: ["foo", "bar"]).id }
+    Product.add_keywords(ids, ["baz", "qux"])
+    Product.find(ids).each { |p| p.keywords.should == ["foo", "bar", "baz", "qux"] }
+  end
 end
