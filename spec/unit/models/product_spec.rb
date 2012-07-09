@@ -35,4 +35,9 @@ describe Product do
     product.reload
     product.price.should == 19.99
   end
+  
+  it "should find published products" do
+    2.times { create(:product, status: "published") }
+    Product.published.count.should == 2
+  end
 end

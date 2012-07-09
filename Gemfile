@@ -5,6 +5,7 @@ gem 'mongoid', '~> 2.4.11'
 gem 'bson_ext', '~> 1.6.4'
 
 gem 'pry'
+gem 'pry-rails'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -42,4 +43,5 @@ end
 
 group :test do
   gem 'mongoid-rspec'
+  gem 'database_cleaner', require: false
 end
