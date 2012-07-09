@@ -32,4 +32,17 @@ RSpec.configure do |config|
   
   config.include FactoryGirl::Syntax::Methods
   config.include Mongoid::Matchers
+  
+  require 'database_cleaner'
+  config.before(:suite) do
+    DatabaseCleaner[:mongoid].strategy = :truncation
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
+  end
 end

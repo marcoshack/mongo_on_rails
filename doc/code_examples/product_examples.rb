@@ -39,3 +39,11 @@ Product.where(:quantity.gt => 1).in(keywords: ["game","console"]).order(title: 1
 end
 
 
+# Criteria + Modificações
+
+Product.where(quantity: 0).destroy_all
+
+Product.where(:keywords.all => ["game", "console"]).update_all(
+  category: "Video Game"
+)
+

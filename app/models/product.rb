@@ -5,8 +5,12 @@ class Product
   field :k, as: :keywords   , :type => Array
   field :q, as: :quantity   , :type => Integer, default: 0
   field :p, as: :price      , :type => Float
+  field :c, as: :category   , :type => String
+  field :s, as: :status     , :type => String
   
   validates :title, presence: true, length: { maximum: 100 }
+  
+  scope :published, where(status: "published")
   
   def add_keywords(keywords)
     self.add_to_set(:k, keywords)

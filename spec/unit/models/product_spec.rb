@@ -42,4 +42,9 @@ describe Product do
     Product.add_keywords(ids, ["baz", "qux"])
     Product.find(ids).each { |p| p.keywords.should == ["foo", "bar", "baz", "qux"] }
   end
+
+  it "should find published products" do
+    2.times { create(:product, status: "published") }
+    Product.published.count.should == 2
+  end
 end
