@@ -39,27 +39,74 @@ Product.where(:quantity.gt => 1).in(keywords: ["game","console"]).order(title: 1
 end
 
 
-# Criteria + Modificações
-
-Product.where(quantity: 0).destroy_all
-
-Product.where(:keywords.all => ["game", "console"]).update_all(
-  category: "Video Game"
-)
-
-
 # Named scopes
 
 class Product
   # ...
-
-  scope :published, where(status: "published")
-  scope :available, published.and(:quantity.gt => 0)
-  scope :has_keywords, lambda {|words| where(:keywords.all => words)}
-  
+  scope :published    , where(status: "published")
+  scope :available    , where(:quantity.gt => 0).and.published
+  scope :unavailable  , where(:quantity => 0)
+  scope :with_keywords, lambda { |words| 
+    where(:keywords.all => words)
+  }
   # ...
 end
 
-Product.available.and.has_keywords(["awesome", "game"])
+Product.available.with_keywords(["awesome", "game"])
+
+
+# Criteria + Modificações
+
+ Product.unavailable.destroy_all
+
+Product.with_keywords(["game","console"]).update_all(
+  category: "Video Game"
+)
+
+
+# Embedded Association
+
+class Product
+  # ...
+  embeds_many :comments
+  # ...
+end
+
+
+product.comments << Comment.new(
+   author_name: "Roger Federer",
+  author_email: "number_one@atp.com",
+       content: "Amazing site! I'll buy my rackets here!"
+)
+
+product.comments.create(
+   author_name: "Roger Federer",
+  author_email: "number_one@atp.com",
+       content: "Amazing site! I'll buy my rackets here!"
+)
+
+product.comments.destroy_all
+product.comments.where(author_name: "Spammer").destroy_all
+
+class Product
+  # ...
+  scope :commented_by, lambda { |name|
+    all.or("comments.author_name"  => name).
+        or("comments.author_email" => name)
+  }
+  #...
+end
+
+Product.where("comments.author_name" => "Miyamoto")
+
+
+# Referenced Association
+
+class Product
+  # ...
+  belongs_to  :category
+  # ...
+end
+
 
 

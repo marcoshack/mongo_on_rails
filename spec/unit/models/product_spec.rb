@@ -43,12 +43,31 @@ describe Product do
   
   it "shoud find available products" do
     3.times { create(:product, status: "published", quantity: 2) }
-    2.times { create(:product, status: "pending"  , quantity: 1) }
+    2.times { create(:product, status: "published", quantity: 0) }
+    2.times { create(:product, status: "pending"  , quantity: 3) }
     Product.available.count.should == 3
   end
   
   it "should find products with the given keywords" do
     create(:product, keywords: ["awesome"])
-    Product.has_keywords(["awesome"])
+    Product.with_keywords(["awesome"])
+  end
+  
+  it "should have comments" do
+    product = create(:product_with_comments)    
+    product.comments.count.should > 1
+  end
+  
+  it "should find by comment authors" do
+    create(:product, comments: [build(:comment, author_name: "foo")])
+    create(:product, comments: [build(:comment, author_email: "bar@example.com")])
+    Product.commented_by("foo").count.should == 1
+    Product.commented_by("bar@example.com").count.should == 1
+  end
+  
+  it "should have a category" do
+    p = create(:product, category: create(:category, name: "A Category"))
+    p.category.should_not be_nil
+    p.category.name.should == "A Category"
   end
 end

@@ -1,6 +1,7 @@
 defaults: &defaults
   host: localhost
   allow_dynamic_fields: false
+  identity_map_enabled: true
 
 development:
   <<: *defaults

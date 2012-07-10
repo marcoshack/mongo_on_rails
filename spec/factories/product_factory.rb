@@ -4,8 +4,16 @@ FactoryGirl.define do
     description         { |p| "#{p.title} description" }
     keywords            ["foo", "bar"]
     quantity            1
-    price               10.00
-    sequence(:category) { |n| "Category #{n}" }
+    price               10.99
     status              "published"
+    association         :category
+  end
+  
+  factory :product_with_comments, :parent => :product do
+    comments {[
+      FactoryGirl.build(:comment),
+      FactoryGirl.build(:comment),
+      FactoryGirl.build(:comment)
+    ]}
   end
 end
