@@ -11,7 +11,7 @@ describe Product do
   
   it "should add keywords without duplication" do
     product = create(:product, keywords: ["foo", "bar"])
-    product.add_keywords(["foo", "bar", "baz", "qux"]).reload
+    product.add_keywords(["foo", "bar", "baz", "qux"])
     product.keywords.should == ["foo", "bar", "baz", "qux"]
   end
   
@@ -58,7 +58,7 @@ describe Product do
     product.comments.count.should > 1
   end
   
-  it "should find by comment authors" do
+  it "should find by comment's author's name or e-mail" do
     create(:product, comments: [build(:comment, author_name: "foo")])
     create(:product, comments: [build(:comment, author_email: "bar@example.com")])
     Product.commented_by("foo").count.should == 1

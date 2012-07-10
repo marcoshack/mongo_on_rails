@@ -19,19 +19,17 @@ class Product
     where(:keywords.all => words)
   }
   scope :commented_by, lambda { |name|
-    all.or("comments.author_name"  => name).
-        or("comments.author_email" => name)
+    where("$or" => [
+      { "comments.author_name"  => name },
+      { "comments.author_email" => name }
+    ])
   }
   
   def add_keywords(keywords)
     self.add_to_set(:keywords, keywords)
-    self.save
-    self
   end
   
   def inc_quantity(increment)
     self.inc(:quantity, increment)
-    self.save
-    self
   end
 end
