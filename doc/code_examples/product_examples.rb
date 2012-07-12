@@ -115,5 +115,12 @@ class Product
   # ...
 end
 
+Product.where(category: category)
 
+category.products << Product.new(
+  title: "Uncharted 2",
+  keywords: ["game", "action", "ps3"]
+)
+
+category.products.with_keywords(["game", "ps3"])
 
