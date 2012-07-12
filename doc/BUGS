@@ -1,0 +1,4 @@
+Mongoid:
+  - Criteria#add_to_set não utiliza "$each" como no Model#add_to_set
+  - Model.includes(:association) faz uma consulta para todos os ids da associacao, mesmo sendo o mesmo para todos os documentos (exemplo Product.includes(:category))
+  

@@ -5,23 +5,31 @@ class Product
   field :k, as: :keywords   , :type => Array
   field :q, as: :quantity   , :type => Integer, default: 0
   field :p, as: :price      , :type => Float
-  field :c, as: :category   , :type => String
   field :s, as: :status     , :type => String
+
+  embeds_many :comments
+  belongs_to  :category
   
   validates :title, presence: true, length: { maximum: 100 }
   
   scope :published, where(status: "published")
+  scope :available, published.and(:quantity.gt => 0)
+  scope :with_keywords, lambda { |words| 
+    where(:keywords.all => words)
+  }
+  scope :commented_by, lambda { |name|
+    where("$or" => [
+      { "comments.author_name"  => name },
+      { "comments.author_email" => name }
+    ])
+  }
   
   def add_keywords(keywords)
     self.add_to_set(:k, keywords)
-    self.save
-    self
   end
   
   def inc_quantity(increment)
     self.inc(:q, increment)
-    self.save
-    self
   end
   
   def self.add_keywords(ids, keywords)

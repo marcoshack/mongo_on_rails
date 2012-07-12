@@ -25,11 +25,11 @@ describe User do
   end
   
   it "should protect password from mass assignment" do
-    user = User.create(username: "marcoshack", first_name: "Marcos")
-    user.password = "abdcde"
-    user.update_attributes(last_name: "Hack", password: "123456")
+    user = User.create(username: "mhack", first_name: "Marcos")
+    user.password = "abdcd"
+    user.update_attributes(last_name: "Hack", password: "12345")
     user.last_name.should == "Hack"
-    user.password.should  == "abdcde"
+    user.password.should  == "abdcd"
   end
 end
 
