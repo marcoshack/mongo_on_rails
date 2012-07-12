@@ -1,5 +1,12 @@
-
 # Validations
+
+class Product
+  include Mongoid::Document
+  field :title      , :type => String
+  field :description, :type => String
+  
+  validates :title, presence: true, length: { maximum: 100 }
+end
 
 product = Product.new
 product.valid?         #=> false
