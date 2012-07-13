@@ -70,4 +70,22 @@ describe Product do
     p.category.should_not be_nil
     p.category.name.should == "A Category"
   end
+  
+  it "should have many tags" do
+    p = create(:product)
+    3.times { p.tags << create(:tag) }
+    p.tags.size.should == 3
+  end
+  
+  it "should summarize keywords usage" do
+    3.times { create(:product, keywords: ["foo", "bar", "baz"] )}
+    2.times { create(:product, keywords: ["foo"] )}
+    1.times { create(:product, keywords: ["qux"] )}
+    1.times { create(:product, keywords: nil     )}
+    result = Product.keyword_counter
+    result["foo"].should == 5
+    result["bar"].should == 3
+    result["baz"].should == 3
+    result["qux"].should == 1
+  end
 end

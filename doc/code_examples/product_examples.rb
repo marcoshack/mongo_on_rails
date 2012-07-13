@@ -1,3 +1,20 @@
+# Model
+
+class Product
+  include Mongoid::Document
+  field :title      , :type => String
+  field :description, :type => String
+end
+
+product = Product.new
+product.write_attribute(:title, "Sony PlayStation 3")
+product.description = "Ultimate home entertainment"
+
+product.read_attribute(:title) #=> "Sony PlayStation 3"
+product.description #=> "Ultimate home entertainment"
+
+
+
 # Validations
 
 class Product
@@ -17,12 +34,12 @@ product.save!          #=> Mongoid::Errors::Validations
 
 # Dynamic Attributes
 
-product = Product.create(title: "Super Nintendo NES System")
+product = Product.new(title: "Super Nintendo NES System")
 product.attributes #=> { "t" => "Super Nintendo NES System" }
 product.title      #=> "Super Nintendo NES System"
 
 
-product = Product.create(title: "Atari 2600")
+product = Product.new(title: "Atari 2600")
 
 product.price                          #=> NoMethodError
 product[:price]                        #=> nil
@@ -116,4 +133,41 @@ class Product
 end
 
 
+class Product
+  # ...
+  has_and_belongs_to_many :tags
+  # ...
+end
+
+
+Product.where(category: category)
+
+Product.where(category_id: category.id)
+
+
+product.tags << [tag1, tag2]
+
+product.tags.create(name: "foo")
+
+Product.where(:tag_ids.in => [tag1.id, tag2.id])
+
+product.tags.clear
+
+tag.products.add_to_set(:keywords, tag.name)
+
+
+# Indexes
+
+class Product
+  #...
+  index :title
+  index :status
+  index :keywords, sparce: true
+  index([
+    [ :status  , Mongo::ASCENDING ],
+    [ :quantity, Mongo::ASCENDING ]
+  ])
+  index "comments.author_email"
+  #...
+end
 
